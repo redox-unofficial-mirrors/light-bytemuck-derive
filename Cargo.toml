@@ -1,0 +1,10 @@
+[package]
+name = "light-bytemuck-derive"
+version = "0.1.0"
+edition = "2021"
+authors = ["4lDO2 <4lDO2@protonmail.com>"]
+license = "MIT"
+description = "A proc-macro-less wrapper macro for implementing bytemuck::Pod"
+
+[dependencies]
+bytemuck = { version = "1", default-features = false }
