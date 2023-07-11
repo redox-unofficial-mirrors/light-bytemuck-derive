@@ -6,6 +6,7 @@ macro_rules! pod_struct {
     {
         $struct_vis:vis struct $name:ident {
             $(
+                $(#[$outer:meta])*
                 $vis:vis $field:ident: $ty:ty,
             )*
         }
@@ -14,6 +15,7 @@ macro_rules! pod_struct {
         #[repr(C)]
         $struct_vis struct $name {
             $(
+                $(#[$outer])*
                 $vis $field: $ty,
             )*
         }
