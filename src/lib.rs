@@ -71,8 +71,41 @@ macro_rules! pod_struct {
                 needs_traits::<$name>();
             }
 
+            $crate::compat_impls!($name);
+
             // The bytemuck Pod docs do not mention anything about alignment, but as long as there
             // are no padding bytes, which has already been checked for, that is irrelevant.
         };
     }
+}
+
+#[macro_export]
+#[cfg(feature = "compat")]
+#[doc(hidden)]
+macro_rules! compat_impls {
+    ($name:ident) => {
+        impl ::core::ops::Deref for $name {
+            type Target = [u8];
+
+            fn deref(&self) -> &[u8] {
+                ::bytemuck::bytes_of(self)
+            }
+        }
+        impl ::core::ops::DerefMut for $name {
+            fn deref_mut(&mut self) -> &mut [u8] {
+                ::bytemuck::bytes_of_mut(self)
+            }
+        }
+        impl ::core::default::Default for $name {
+            fn default() -> Self {
+                <Self as ::bytemuck::Zeroable>::zeroed()
+            }
+        }
+    };
+}
+#[macro_export]
+#[cfg(not(feature = "compat"))]
+#[doc(hidden)]
+macro_rules! compat_impls {
+    ($name:ident) => {}
 }

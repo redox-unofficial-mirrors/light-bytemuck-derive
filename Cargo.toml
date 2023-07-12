@@ -6,5 +6,9 @@ authors = ["4lDO2 <4lDO2@protonmail.com>"]
 license = "MIT"
 description = "A proc-macro-less wrapper macro for implementing bytemuck::Pod"
 
+[features]
+default = ["compat"]
+compat = []
+
 [dependencies]
 bytemuck = { version = "1", default-features = false }
